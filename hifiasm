@@ -1,6 +1,5 @@
 260311
 
-< hifiasm
 # Install hifiasm (requiring g++ and zlib)
 git clone https://github.com/chhylp123/hifiasm
 cd hifiasm && make
