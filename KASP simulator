@@ -1,0 +1,16 @@
+2026.03.25.Wen
+
+eHT-PCR study
+1. eHT-PCR directory component
+(1) bin 
+    - bwa : shell file
+    - [prefix].jar files
+    - jdk directory : source coda download? (java programming kit)
+(2) db : directory
+    - refernece seuqence file (fasta format)
+    - sa/seq/udx/bwt/amb/ann: "bwa" indexing result?
+(3) tmp
+    - many log files : eHTPCR.log , primer.aln_log/log/sai/sam/samse_log  # aligment log, eHT-PCR log
+
+
+
