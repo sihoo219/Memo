@@ -1,0 +1,64 @@
+fInp = open("simulator.inp", "r")
+fOut = open("simulator.out", "w")
+
+listF, listH, listC = [], [], []
+primerType = ""
+
+for line in fInp:
+    mappedList = []
+
+    if line[0] == "@":
+        continue
+
+    item = line.strip().split("\t")
+    primerType = item[0][-1]
+    print(primerType)
+
+    if item[1] == "0":
+        mappedList.append(":".join([item[2], "+", item[3], item[5], "0"]))
+    elif item[1] == "16":
+        mappedList.append(":".join([item[2], "-", item[3], item[5], "0"]))
+    print(mappedList)
+
+    if (primerType == "F" or primerType == "H") and item[-1].strip().split(":")[0] != "XA":
+        continue
+    elif primerType == "C" and item[-1].strip().split(":")[0] != "XA":
+        listF, listH, listC = [], [], []
+        continue
+
+    XA_field = item[-1].strip().split(":")[2].split(";")[:-1]
+
+    tmpList = []
+    for x in XA_field:
+        x = x.split(",")
+        mappedList.append(":".join([x[0], x[1][0], x[1][1:], x[2], x[3]]))
+
+    if primerType == "F":
+        listF = mappedList
+    elif primerType == "H":
+        listH = mappedList
+    elif primerType == "C":
+        listC = mappedList
+
+    if primerType == "C":
+        for lc in listC:
+            for lf in listF:
+                c = lc.split(":")
+                f = lf.split(":")
+
+                if c[0] == f[0] and c[1] != f[1] and abs(int(c[2]) - int(f[2]) < 500) and c[-1] == "0" and f[-1] == "0":
+                    fOut.write(f"{item[0]}\tF-C\t{lc}\t{lf}\n")
+
+        for lc in listC:
+            for lh in listH:
+                c = lc.split(":")
+                h = lh.split(":")
+
+                if c[0] == h[0] and c[1] != h[1] and abs(int(c[2]) - int(h[2]) < 500) and c[-1] == "0" and h[-1] == "0":
+                    fOut.write(f"{item[0]}\tF-H\t{lc}\t{lh}\n")
+
+        listF, listH, listC = [], [], []
+
+
+
+
